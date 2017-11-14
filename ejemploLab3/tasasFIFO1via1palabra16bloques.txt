@@ -1,0 +1,2 @@
+la tasa de hit es: 19%
+la tasa de miss es: 81%
