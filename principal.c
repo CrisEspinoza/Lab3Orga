@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
 {  
     char archivoEntrada[50];
     char archivoSalida[50];
+    char archivoSalida2[50];
     int opcion,cantNumeros;
     int* numeros;
     Cache* cache = (Cache*)malloc(sizeof(Cache));
@@ -33,27 +34,29 @@ int main(int argc, char *argv[])
 
         switch ( opcion )
         {
-            case 1: printf("Ingrese el nombre de archivo de entrada: ");
+            case 1: printf("Ingrese el nombre de archivo de entrada(Escriba el nombre con extension): ");
                     scanf("%s",archivoEntrada);   
-                    cantNumeros = contarLineas(archivoEntrada);
-                    printf("%d\n", cantNumeros );
-                    numeros = (int*)malloc(sizeof(int)*cantNumeros);
-                    numeros = leerNumeros(archivoEntrada,numeros);
-
-                    /*for (int i = 0; i < cantNumeros; i++)
-                    {
-                        printf("El numero %d : %d \n", i+1 , numeros[i]);
-                    }*/
 
                     cache = iniciarCache( argv[1],atoi(argv[2]),atoi(argv[3]),atoi(argv[4]));
+
                     printf("%d\n", cache->numeroDeVias );
                     printf("%d\n", cache->bloquesXVias);
                     printf("%d\n", cache->palabrasXBloque);
                     printf("%d\n", cache->numeroDeBloques);
+
                     elCache(cache,archivoEntrada);
                     break;
 
-            case 2: 
+            case 2: printf("Ingrese el nombre de archivo de salida del cache (Escriba el nombre sin extension): ");
+                    scanf("%s",archivoSalida);
+
+                    escribirArchivoCache(cache,archivoSalida);
+
+                    printf("Ingrese el nombre de archivo de salida de los porcentajes del cache (Escriba el nombre sin extension) : ");
+                    scanf("%s",archivoSalida2);
+
+                    escribirPorcentajesMissHitt(cache,archivoSalida2);
+
                     break;
                     
             case 3: system("cls");

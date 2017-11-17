@@ -7,63 +7,6 @@
 // Funciones que leen los archivos
 
 /*
-- Entrada: Recibe como entrada el nombre del archivo.
-- Salida: Entrega la cantidad de lineas del archivo.
-- Procedimiento: Se preocupa de contar las lineas del archivo.
- */
-int contarLineas(char nombre[])
-{
-    FILE *archivo;
-    archivo = fopen(nombre, "r");
-    char *string = (char*)malloc(sizeof(char)*100);
-    int contador = 0;
-
-    if(archivo == NULL)
-    {
-        printf("Error al abrir archivo \n");
-        return 0;
-    }
-    
-    while(!feof(archivo)) // Que lea el archivo siempre y cuando no sea un salto de linea
-    {
-        string = fgets(string, 100, archivo);
-        contador++;
-    }
-
-    fclose(archivo);
-    //printf("el numero de lineas es: %d\n", contador);
-    return contador;
-}
-
-/*
-- Entrada: Recibe como entrada el nombre del archivo y una arreglo de enteros.
-- Salida: Entrega el arreglo de enteros llenado con los datos que se van a buscar en el cache.
-- Procedimiento: Se preocupa de leer el archivo y guardar dichos numeros en un arreglo de enteros.
- */
-int* leerNumeros(char nombre[], int* numeros)
-{
-    FILE *archivo;
-    archivo = fopen(nombre, "r");
-    int contador = 0;
-
-    if(archivo == NULL)
-    {
-        printf("Error al abrir archivo \n");
-        return 0;
-    }
-    
-    while(!feof(archivo)) // Que lea el archivo siempre y cuando no sea un salto de linea
-    {
-        fscanf(archivo,"%d \n",&numeros[contador]);
-        contador++;
-    }
-
-    fclose(archivo);
-
-    return numeros;
-}
-
-/*
 - Entrada: Recibe como entrada la politica a utilizar, la cantidad de vias, palabras y bloques del cache.
 - Salida: Entrega el cache conformado.
 - Procedimiento: Se encarga de crear el cache con los datos que se entregan como parametros.
@@ -158,15 +101,6 @@ void FIFO(Cache* cache, int dato)
     }
 }
 
-void colocarPalabra(Cache* cache ,int via,int bloque,int dato)
-{
-    int i;
-
-    for (i = 0; i < cache->palabrasXBloque; ++i)
-    {
-        cache->vias[via].bloques[bloque].palabras[i] = dato - (dato%cache->palabrasXBloque) + i ; 
-    }
-}
 
 void MRU(Cache* cache, int dato)
 {
@@ -198,24 +132,6 @@ void MRU(Cache* cache, int dato)
             colocarPalabra(cache,via,cache->vias[via].MRU, dato);
         }
     }
-}
-
-int indiceBloque(Cache* cache, int via, int dato)
-{
-    int i,j;
-
-    for (i = 0; i < cache->bloquesXVias ; i++)
-    {
-        for (j = 0 ; j < cache->palabrasXBloque ; j++) 
-        {
-            if( cache->vias[via].bloques[i].palabras[j] == dato)
-            {
-                return i;
-            }
-        }
-    }
-
-    return -1;
 }
 
 void LRU(Cache* cache, int dato)
@@ -257,6 +173,34 @@ void LRU(Cache* cache, int dato)
             interacionBloquePolLRU(cache,via,bloque);
         }
     }
+}
+
+void colocarPalabra(Cache* cache ,int via,int bloque,int dato)
+{
+    int i;
+
+    for (i = 0; i < cache->palabrasXBloque; ++i)
+    {
+        cache->vias[via].bloques[bloque].palabras[i] = dato - (dato%cache->palabrasXBloque) + i ; 
+    }
+}
+
+int indiceBloque(Cache* cache, int via, int dato)
+{
+    int i,j;
+
+    for (i = 0; i < cache->bloquesXVias ; i++)
+    {
+        for (j = 0 ; j < cache->palabrasXBloque ; j++) 
+        {
+            if( cache->vias[via].bloques[i].palabras[j] == dato)
+            {
+                return i;
+            }
+        }
+    }
+
+    return -1;
 }
 
 void interacionBloquePolLRU(Cache* cache, int via,int bloque)
@@ -327,5 +271,53 @@ void elCache(Cache* cache, char nombre[])
         
     }
     mostrarCache(cache);
+    fclose(archivo);
+}
+
+void escribirArchivoCache(Cache* cache, char nombre[])
+{
+    FILE *archivo;
+
+    nombre =strcat(nombre,".out");
+    archivo = fopen(nombre, "w"); // Abrimos le archivo en modo escritura y que se cree si no exite el archivo nombrado
+
+    int c,r,i;
+
+    fprintf(archivo,"La solución del cache : \n");
+    fprintf(archivo,"\n");
+
+    for ( c = 0; c < cache->numeroDeVias; c++)
+    {   
+        fprintf(archivo,"vias[%d]:\n",c);
+        for ( r = 0; r < cache->bloquesXVias; r++)
+        {   
+            fprintf(archivo,"  bloques[%d]:\n",r );
+            for ( i = 0; i < cache->palabrasXBloque; i++)
+            {
+                fprintf(archivo,"    palabra[%d]: %d\n",i,cache->vias[c].bloques[r].palabras[i] );
+            }
+        }
+    }
+
+    fclose(archivo);
+}
+
+void escribirPorcentajesMissHitt(Cache* cache,char nombre[])
+{
+    FILE *archivo;
+
+    nombre =strcat(nombre,".out");
+    archivo = fopen(nombre, "w"); // Abrimos le archivo en modo escritura y que se cree si no exite el archivo nombrado
+
+    float tasaHit = ( ( (float) cache->hit) / (cache->miss+cache->hit) ) * 100;
+    float tasaMiss = ( ( (float) cache->miss) / (cache->miss+cache->hit) ) * 100;
+
+    fprintf(archivo,"Las estadisticas del cache realizado: \n");
+
+    fprintf(archivo,"Cantidad de Hit obtenidos: %d \n", cache->hit );
+    fprintf(archivo,"Cantidad de Miss obtenidos: %d \n", cache->miss);
+    fprintf(archivo,"Tasa de Hit: %f %\n", tasaHit);
+    fprintf(archivo,"Tasa de Miss: %f %\n",tasaMiss);    
+
     fclose(archivo);
 }

@@ -37,8 +37,6 @@ typedef struct Cache
 
 void mostrarCache(Cache* cache);
 Cache* iniciarCache(char* politica, int vias, int palabras, int bloques);
-int contarLineas(char nombre[]);
-int* leerNumeros(char nombre[], int* numeros);
 void colocarPalabra(Cache* cache ,int via,int bloque,int dato);
 void FIFO(Cache* cache, int dato);
 int estaEnCache(Cache* cache,int dato);
@@ -49,3 +47,5 @@ int estaCompleto(Cache* cache, int via);
 int indiceBloqueLRU(Cache* cache, int via);
 void interacionBloquePolLRU(Cache* cache, int via,int bloque);
 void LRU(Cache* cache, int dato);
+void escribirArchivoCache(Cache* cache, char nombre[]);
+void escribirPorcentajesMissHitt(Cache* cache,char nombre[]);
