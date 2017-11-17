@@ -321,3 +321,102 @@ void escribirPorcentajesMissHitt(Cache* cache,char nombre[])
 
     fclose(archivo);
 }
+
+int validarDatos(int argc, char** argv)
+{
+    if (argc < 5)
+    {
+        return 0;
+    }
+
+    //verificar que lo entregado es correcto
+    if (!esNumero(argv[2]), !esNumero(argv[3]) ,!esNumero(argv[4]))
+    {
+        return 0;
+    }
+    if (!esPotenciaDeDos(atoi(argv[2])) || !esPotenciaDeDos(atoi(argv[3])) || !esPotenciaDeDos(atoi(argv[4])))
+    {
+        return 0;
+    }
+    if (!esPotilica(argv[1]))
+    {
+        return 0;
+    }
+    if (atoi(argv[2]) > atoi(argv[4]))
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+int esPotenciaDeDos(int valor)
+{
+    if (valor  == 1)
+    {
+        return 1;
+    }
+    else
+    {
+        int i=1;
+
+        while (1)
+        {
+            i *= 2;
+            if (i == valor)
+            {
+                return 1;
+            }
+            if (i > valor)
+            {
+                return 0;
+            }
+        }
+    }
+
+    return 0;
+}
+
+int esNumero(char* cadena)
+{
+    int i;
+
+    for ( i = 0 ; i < (int)strlen(cadena) ; i++)
+    {
+        if (!(cadena[i] >= 48 && cadena[i] <= 57 ) ) 
+        {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int esPotilica(char* cadena)
+{
+    if (!strcmp(cadena,"MRU"))
+    {
+        return 1;
+    }
+    else if (!strcmp(cadena,"mru"))
+    {
+        return 1;
+    }
+    else if (!strcmp(cadena,"LRU"))
+    {
+        return 1;
+    }
+    else if (!strcmp(cadena,"lru"))
+    {
+        return 1;
+    }
+    else if (!strcmp(cadena,"FIFO"))
+    {
+        return 1;
+    }
+    else if (!strcmp(cadena,"fifo"))
+    {
+        return 1;
+    }
+    return 0;
+}

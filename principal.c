@@ -19,6 +19,12 @@ int main(int argc, char *argv[])
     int* numeros;
     Cache* cache = (Cache*)malloc(sizeof(Cache));
 
+    if (!validarDatos(argc,argv))
+    {
+        printf("Los datos que ingreso son invalidos.\n");
+        return 0;
+    }
+
     do
     {
         printf( "\n   1. Ingrese el nombre del archivo de numeros de cache");
@@ -43,23 +49,19 @@ int main(int argc, char *argv[])
                     printf("%d\n", cache->bloquesXVias);
                     printf("%d\n", cache->palabrasXBloque);
                     printf("%d\n", cache->numeroDeBloques);
-
-                    elCache(cache,archivoEntrada);
                     break;
 
             case 2: printf("Ingrese el nombre de archivo de salida del cache (Escriba el nombre sin extension): ");
                     scanf("%s",archivoSalida);
 
-                    escribirArchivoCache(cache,archivoSalida);
-
                     printf("Ingrese el nombre de archivo de salida de los porcentajes del cache (Escriba el nombre sin extension) : ");
                     scanf("%s",archivoSalida2);
 
-                    escribirPorcentajesMissHitt(cache,archivoSalida2);
-
                     break;
                     
-            case 3: system("cls");
+            case 3: elCache(cache,archivoEntrada);
+                    escribirArchivoCache(cache,archivoSalida);
+                    escribirPorcentajesMissHitt(cache,archivoSalida2);
                     break;
 
             case 4: system("cls");

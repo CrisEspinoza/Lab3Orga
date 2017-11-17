@@ -49,3 +49,7 @@ void interacionBloquePolLRU(Cache* cache, int via,int bloque);
 void LRU(Cache* cache, int dato);
 void escribirArchivoCache(Cache* cache, char nombre[]);
 void escribirPorcentajesMissHitt(Cache* cache,char nombre[]);
+int validarDatos(int argc, char** argv);
+int esPotenciaDeDos(int valor);
+int esNumero(char* cadena);
+int esPotilica(char* cadena);
