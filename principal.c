@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
                     printf("%d\n", cache->bloquesXVias);
                     printf("%d\n", cache->palabrasXBloque);
                     printf("%d\n", cache->numeroDeBloques);
-                    mostrarCache(cache);
+                    elCache(cache,archivoEntrada);
                     break;
 
             case 2: 
