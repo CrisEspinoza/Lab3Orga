@@ -1,0 +1,27 @@
+La solución del cache : 
+
+vias[0]:
+  bloques[0]:
+    palabra[0]: 14
+    palabra[1]: 15
+  bloques[1]:
+    palabra[0]: 32
+    palabra[1]: 33
+  bloques[2]:
+    palabra[0]: 18
+    palabra[1]: 19
+  bloques[3]:
+    palabra[0]: 0
+    palabra[1]: 1
+  bloques[4]:
+    palabra[0]: 12
+    palabra[1]: 13
+  bloques[5]:
+    palabra[0]: 10
+    palabra[1]: 11
+  bloques[6]:
+    palabra[0]: 30
+    palabra[1]: 31
+  bloques[7]:
+    palabra[0]: 2
+    palabra[1]: 3
