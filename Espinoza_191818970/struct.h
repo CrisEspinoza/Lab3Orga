@@ -33,7 +33,7 @@ typedef struct Cache
 	char* politica;
 }Cache;
 
-//Funciones 
+//Funciones a utilizar dentor del programa
 
 void mostrarCache(Cache* cache);
 Cache* iniciarCache(char* politica, int vias, int palabras, int bloques);

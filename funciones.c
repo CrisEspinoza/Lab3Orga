@@ -48,6 +48,12 @@ Cache* iniciarCache(char* politica, int vias, int palabras, int bloques)
 
 }
 
+/*
+- Entrada: Recibe como entrada el cache que estamos utilizando
+- Salida: -
+- Procedimiento: Se encarga de mostrar cada uno de los datos del cache.
+ */
+
 void mostrarCache(Cache* cache)
 {
     int c,r,i;
@@ -66,6 +72,12 @@ void mostrarCache(Cache* cache)
     }
 }
 
+/*
+- Entrada: Recibe como parametro el cache que estamos utilizando, ademas de un valor entero.
+- Salida: Entre un valor 1 si el valor se encuentra en el cache, entrega un valor 0 si el dato no esta en cache.
+- Procedimiento: Se encarga de verificar si el dato se encuentra en cache.
+ */
+
 int estaEnCache(Cache* cache,int dato)
 {
     int via = (dato / cache->palabrasXBloque) % cache->numeroDeVias;
@@ -82,6 +94,12 @@ int estaEnCache(Cache* cache,int dato)
     }
     return 0;
 }
+
+/*
+- Entrada: Recibe como parametro el cache que estamos utilizando, ademas de un valor entero.
+- Salida: -
+- Procedimiento: Se encarga de ingresar el nuevo valor al cache, con respecto a la politica FIFO.
+ */
 
 void FIFO(Cache* cache, int dato)
 {
@@ -100,6 +118,12 @@ void FIFO(Cache* cache, int dato)
         cache->vias[via].contador++;
     }
 }
+
+/*
+- Entrada: Recibe como parametro el cache que estamos utilizando, ademas de un valor entero.
+- Salida: -
+- Procedimiento: Se encarga de ingresar el nuevo valor al cache, con respecto a la politica MRU.
+ */
 
 
 void MRU(Cache* cache, int dato)
@@ -133,6 +157,12 @@ void MRU(Cache* cache, int dato)
         }
     }
 }
+
+/*
+- Entrada: Recibe como parametro el cache que estamos utilizando, ademas de un valor entero.
+- Salida: -
+- Procedimiento: Se encarga de ingresar el nuevo valor al cache, con respecto a la politica LRU.
+ */
 
 void LRU(Cache* cache, int dato)
 {
@@ -175,6 +205,12 @@ void LRU(Cache* cache, int dato)
     }
 }
 
+/*
+- Entrada: Recibe como parametro el cache que estamos utilizando, ademas de 3 valores enteros, que son los valores de donde tiene que ir ubicada la palabra en el cache
+- Salida: -
+- Procedimiento: Se encarga de ingresar el nuevo valor al cache, con respecto a los valores ingresados como parametros
+ */
+
 void colocarPalabra(Cache* cache ,int via,int bloque,int dato)
 {
     int i;
@@ -184,6 +220,12 @@ void colocarPalabra(Cache* cache ,int via,int bloque,int dato)
         cache->vias[via].bloques[bloque].palabras[i] = dato - (dato%cache->palabrasXBloque) + i ; 
     }
 }
+
+/*
+- Entrada: Recibe como parametro el cache que estamos utilizando, ademas de dos valores enteros, uno el dato y el otro la via en la que tiene que estar.
+- Salida: -
+- Procedimiento: Se encarga de buscar el boloque en el cual se encuentra el dato que se paso como parametro
+ */
 
 int indiceBloque(Cache* cache, int via, int dato)
 {
@@ -203,6 +245,12 @@ int indiceBloque(Cache* cache, int via, int dato)
     return -1;
 }
 
+/*
+- Entrada: Recibe como parametro el cache que estamos utilizando, ademas de dos valores enteros, la via y el bloque del dato.
+- Salida: -
+- Procedimiento: Se encarga de aumentar la variable LRU de la estructura bloques, por cada dato que es distinto de -1 (cache vacio)
+ */
+
 void interacionBloquePolLRU(Cache* cache, int via,int bloque)
 {
     int i;
@@ -216,6 +264,12 @@ void interacionBloquePolLRU(Cache* cache, int via,int bloque)
     }
     cache->vias[via].bloques[bloque].LRU = 0;
 }
+
+/*
+- Entrada: Recibe como parametro el cache que estamos utilizando, ademas de un valor entero.
+- Salida: Devuelve el indice en el cual se encuentra el bloque 
+- Procedimiento: Se encarga de buscar el maximo valor del dato, esto se ocupa para buscar el dato en la politica de reemplazo LRU
+ */
 
 int indiceBloqueLRU(Cache* cache, int via)
 {
@@ -234,6 +288,13 @@ int indiceBloqueLRU(Cache* cache, int via)
     return indice;
 }
 
+/*
+- Entrada: Recibe como parametro el cache que estamos utilizando, ademas de un valor entero.
+- Salida: Entrega un 1 si el cache esta completo, en caso contrario entrega un 0
+- Procedimiento: Se encarga de verfirificar si el cache esta completo y no tiene espacio para colocar mas datos, esto lo ocupamos para saber cuando ocupar las 
+    politicas de reeemplazo.
+ */
+
 int estaCompleto(Cache* cache, int via)
 {
     if ( (cache->vias[via].contador) >= (cache->bloquesXVias))
@@ -246,6 +307,12 @@ int estaCompleto(Cache* cache, int via)
         return 0;
     }
 }
+
+/*
+- Entrada: Recibe como parametro el cache que estamos utilizando, ademas del nombre del archivo
+- Salida: -
+- Procedimiento: Se encarga de realizar el llamado a la politica de reemplazo que el usuario ingreso, para comenzar a realizar la traza de llenado de cache
+ */
 
 void elCache(Cache* cache, char nombre[])
 {
@@ -267,12 +334,16 @@ void elCache(Cache* cache, char nombre[])
         
         else if(!strcmp(cache->politica, "LRU") || !strcmp(cache->politica, "lru")){
             LRU(cache,numero);
-        }
-        
-    }
-    mostrarCache(cache);
+        }        
+    }    
     fclose(archivo);
 }
+
+/*
+- Entrada: Recibe como parametro el cache que estamos utilizando, ademas del nombre del archivo de salida1
+- Salida: -
+- Procedimiento: Se encarga de escribir en el archivo, los ultimos valores que obtuvo el cache
+ */
 
 void escribirArchivoCache(Cache* cache, char nombre[])
 {
@@ -302,15 +373,22 @@ void escribirArchivoCache(Cache* cache, char nombre[])
     fclose(archivo);
 }
 
+/*
+- Entrada: Recibe como parametro el cache que estamos utilizando, ademas del archivo de salida2
+- Salida: -
+- Procedimiento: Se encarga de escribir en el archivo los porcentajes de tasa de mis y hit, ademas de la cantidad de cada uno de ellos que se obtuvo.
+ */
+
 void escribirPorcentajesMissHitt(Cache* cache,char nombre[])
 {
     FILE *archivo;
+    float tasaHit,tasaMiss;
 
     nombre =strcat(nombre,".out");
     archivo = fopen(nombre, "w"); // Abrimos le archivo en modo escritura y que se cree si no exite el archivo nombrado
 
-    float tasaHit = ( ( (float) cache->hit) / (cache->miss+cache->hit) ) * 100;
-    float tasaMiss = ( ( (float) cache->miss) / (cache->miss+cache->hit) ) * 100;
+    tasaHit = ( ( (float) cache->hit) / (cache->miss+cache->hit) ) * 100;
+    tasaMiss = ( ( (float) cache->miss) / (cache->miss+cache->hit) ) * 100;
 
     fprintf(archivo,"Las estadisticas del cache realizado: \n");
 
@@ -321,6 +399,12 @@ void escribirPorcentajesMissHitt(Cache* cache,char nombre[])
 
     fclose(archivo);
 }
+
+/*
+- Entrada: Recibe los parametros que son incluidos al momento de ejecutar el programa.
+- Salida: Retorna 1 si todo los valores son validos, en caso contrario retorna un 0
+- Procedimiento: Se encarga de realizar el llamado a funciones que se encargar de verificar si los datos ingresados son validos para la ejecucion del cache
+ */
 
 int validarDatos(int argc, char** argv)
 {
@@ -350,32 +434,30 @@ int validarDatos(int argc, char** argv)
     return 1;
 }
 
-int esPotenciaDeDos(int valor)
+/*
+- Entrada: Recibe como parametro un numero
+- Salida: Entrega como salida un 1 si el numero es potencia de dos, en caso contrario entrega un 0
+- Procedimiento: Se encarga de verificar si el numero ingresado es potencia de dos
+ */
+
+int esPotenciaDeDos(int numero)
 {
-    if (valor  == 1)
-    {
-        return 1;
-    }
-    else
-    {
-        int i=1;
-
-        while (1)
-        {
-            i *= 2;
-            if (i == valor)
-            {
-                return 1;
-            }
-            if (i > valor)
-            {
-                return 0;
-            }
-        }
-    }
-
-    return 0;
+	if (numero == 1)
+	{
+		return 1; //ES POTENCIA DE 2
+	}
+	if (numero % 2 == 1)
+	{
+		return 0;
+	}
+	return esPotenciaDeDos(numero/2);
 }
+
+/*
+- Entrada: Recibe como parametro una cadena de caracteres, para verificar si el dato es numerico
+- Salida: Entrega un 1 si es dato es numerico, en caso contrario entrega un 0
+- Procedimiento: Se encarga de verificar si el dato es numerico, ocupando el codigo ASCII
+ */
 
 int esNumero(char* cadena)
 {
@@ -392,31 +474,28 @@ int esNumero(char* cadena)
     return 1;
 }
 
+/*
+- Entrada: Recibe como parametro una cadena de caracteres, para verificar si el dato es una politica de reemplazo
+- Salida: Entrega un 1 si es dato es una politica de reemplazo, en caso contrario entrega un 0
+- Procedimiento: Se encarga de verificar si el dato ingresado pertenece a una politica de reemplazo
+ */
+
 int esPotilica(char* cadena)
 {
-    if (!strcmp(cadena,"MRU"))
+    if (!strcmp(cadena,"MRU") || !strcmp(cadena,"mru"))
     {
         return 1;
     }
-    else if (!strcmp(cadena,"mru"))
+
+    else if (!strcmp(cadena,"LRU") || !strcmp(cadena,"lru"))
     {
         return 1;
     }
-    else if (!strcmp(cadena,"LRU"))
+
+    else if (!strcmp(cadena,"FIFO") || !strcmp(cadena,"fifo"))
     {
         return 1;
     }
-    else if (!strcmp(cadena,"lru"))
-    {
-        return 1;
-    }
-    else if (!strcmp(cadena,"FIFO"))
-    {
-        return 1;
-    }
-    else if (!strcmp(cadena,"fifo"))
-    {
-        return 1;
-    }
+
     return 0;
 }

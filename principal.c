@@ -1,8 +1,8 @@
 
-// LABORATORIO 3     DE ORGA 
+// LABORATORIO 3 DE ORGA 
 
 // Bibliotecas a utilizar
-// #include <stdio.h>
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -15,8 +15,7 @@ int main(int argc, char *argv[])
     char archivoEntrada[50];
     char archivoSalida[50];
     char archivoSalida2[50];
-    int opcion,cantNumeros;
-    int* numeros;
+    int opcion;
     Cache* cache = (Cache*)malloc(sizeof(Cache));
 
     if (!validarDatos(argc,argv))
@@ -43,7 +42,7 @@ int main(int argc, char *argv[])
             case 1: printf("Ingrese el nombre de archivo de entrada(Escriba el nombre con extension): ");
                     scanf("%s",archivoEntrada);   
 
-                    cache = iniciarCache( argv[1],atoi(argv[2]),atoi(argv[3]),atoi(argv[4]));
+                    cache = iniciarCache( argv[1],atoi(argv[2]),atoi(argv[3]),atoi(argv[4])); //Realiza la creacion del cache
 
                     printf("%d\n", cache->numeroDeVias );
                     printf("%d\n", cache->bloquesXVias);
@@ -52,16 +51,16 @@ int main(int argc, char *argv[])
                     break;
 
             case 2: printf("Ingrese el nombre de archivo de salida del cache (Escriba el nombre sin extension): ");
-                    scanf("%s",archivoSalida);
+                    scanf("%s",archivoSalida); //Se guarda el nombre del archivo numero 1
 
                     printf("Ingrese el nombre de archivo de salida de los porcentajes del cache (Escriba el nombre sin extension) : ");
-                    scanf("%s",archivoSalida2);
+                    scanf("%s",archivoSalida2); //Se guarda el nombre del archivo numeor 2
 
                     break;
                     
-            case 3: elCache(cache,archivoEntrada);
-                    escribirArchivoCache(cache,archivoSalida);
-                    escribirPorcentajesMissHitt(cache,archivoSalida2);
+            case 3: elCache(cache,archivoEntrada); //Comienza el llenado del cache, segun la politica que se ingreso
+                    escribirArchivoCache(cache,archivoSalida); //Realiza la escritura en archivo de los ultimos valores que estuvieron en el cache
+                    escribirPorcentajesMissHitt(cache,archivoSalida2); //Realiza la escritura del archivo con los porcentajes de miss y hit
                     break;
 
             case 4: system("cls");

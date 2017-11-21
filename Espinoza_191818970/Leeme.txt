@@ -1,0 +1,14 @@
+* El programa fue programado para ambiente Windows
+
+El modo de ejecutar el programa es el siguiente :
+
+1. Realizamos la ejecución del make
+2. Luego colocamos: 	
+	laboratorio3.exe fifo 1 1 16 ó 
+	./laboratorio3.exe fifo 1 1 16 (PowerShell)
+
+	Parametros:
+		1 => La politica de reemplazo
+		2 => Cantidad de vías
+		3 => Cantidad de palabras
+		4 => Cantidad de bloques
